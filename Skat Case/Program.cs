@@ -41,16 +41,12 @@ namespace Skat_Case
             {
                 if (waiting)
                     continue;
-                Console.Write("Type run for getting results or test for running tests: ");
+                Console.Write("Type run for getting results: ");
                 string answer = Console.ReadLine();
                 switch (answer)
                 {
                     case "Run":
                         ProcessResults();
-                        break;
-
-                    case "Test":
-
                         break;
 
                     default:
@@ -71,8 +67,6 @@ namespace Skat_Case
             List <int[]> score = new List<int[]>();
 
             GetResults(url, out score, out token);
-            Console.WriteLine("RES: " + score);
-            Console.WriteLine("Token: " + token);
 
             int[] final = CalculateResult(score);
             
@@ -89,7 +83,6 @@ namespace Skat_Case
             Console.WriteLine(result);
 
             waiting = false;
-            // TODO handle final round in case of strikes (should not be above 300!)
         }
 
 
@@ -101,7 +94,6 @@ namespace Skat_Case
             WebResponse response = request.GetResponse();
             StreamReader resStream = new StreamReader(response.GetResponseStream());
             string jsonRes = resStream.ReadToEnd();
-            Console.WriteLine(jsonRes);
 
 
             BowlingResult res = JsonConvert.DeserializeObject<BowlingResult>(jsonRes);
@@ -135,9 +127,6 @@ namespace Skat_Case
             int[] res = new int[score.Count];
             for (int i = 0; i < score.Count && i < 10; i++)
             {
-                Console.WriteLine("SCORE:");
-                Console.WriteLine(score[i][0]);
-                Console.WriteLine(score[i][1]);
                 int[] currentRound = score[i];
                 res[i] = i == 0 ? 0 : res[i - 1]; // Set score sum
                 res[i] += currentRound[0] + currentRound[1]; // Apply normal round score
@@ -151,32 +140,10 @@ namespace Skat_Case
                 {
                     res[i] += score[i + 1][0];
                 }
-                Console.WriteLine(res[i]);
             }
             return res;
         }
         
-
-        //public static bool TestCases()
-        //{
-        //    bool success = true;
-        //    List<int[]> x = Enumerable.Repeat(new int[] { 10, 0 }, 10).ToList(); // Handle all strikes
-        //    x.Add(new int[] { 10, 10 });
-
-
-
-        //    List<int[]> shortRoundStrike = new List<int[]>();
-        //    shortRoundStrike.Add(new int[] { 5, 3 });
-        //    shortRoundStrike.Add(new int[] { 10, 0 });
-
-
-        //    List<int[]> shortRoundSpare = new List<int[]>();
-
-        //    List<int[]> empty = new List<int[]>();
-
-        //    List<int[]> zero = Enumerable.Repeat(new int[] { 0, 0 }, 10).ToList();
-        //    if()
-        //}
 
     }
 }
