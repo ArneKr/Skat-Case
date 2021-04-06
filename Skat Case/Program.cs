@@ -45,7 +45,7 @@ namespace Skat_Case
                 string answer = Console.ReadLine();
                 switch (answer)
                 {
-                    case "Run":
+                    case "run":
                         ProcessResults();
                         break;
 
